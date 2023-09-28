@@ -1,0 +1,64 @@
+{
+  "name": "nestjs-supertoken",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nestjs-supertoken/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/nestjs-supertoken",
+        "main": "apps/nestjs-supertoken/src/main.ts",
+        "tsConfig": "apps/nestjs-supertoken/tsconfig.app.json",
+        "assets": ["apps/nestjs-supertoken/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/nestjs-supertoken/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "nestjs-supertoken:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nestjs-supertoken:build:development"
+        },
+        "production": {
+          "buildTarget": "nestjs-supertoken:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/nestjs-supertoken/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/nestjs-supertoken/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
